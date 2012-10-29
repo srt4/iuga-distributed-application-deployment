@@ -12,40 +12,16 @@ public class TTorrentUtils {
             final URL url,
             final File outDir
     ) throws IOException, NoSuchAlgorithmException {
-        /*URLConnection connection = url.openConnection();
-        connection.addRequestProperty("Referer", "http://iuga.info");
+        final ByteArrayOutputStream bais = new ByteArrayOutputStream();
 
+        final InputStream is = url.openStream();
+        byte[] byteChunk = new byte[4096];
 
-        StringBuilder builder = new StringBuilder();
-        ByteArrayOutputStream reader = new ByteArrayOutputStream(1); //connection.getInputStream());
-
-        String line;
-        while((line = reader.readLine()) != null) {
-            builder.append(line);
+        int n;
+        while ((n = is.read(byteChunk)) > 0) {
+            bais.write(byteChunk, 0, n);
         }
-
-        final byte[] torrent = builder.toString().getBytes();
-        System.out.println(new String(torrent));
-
-        return new SharedTorrentFromUrl(url, torrent, outDir);    */
-        ByteArrayOutputStream bais = new ByteArrayOutputStream();
-        InputStream is = null;
-        try {
-            is = url.openStream();
-            byte[] byteChunk = new byte[4096]; // Or whatever size you want to read in at a time.
-            int n;
-
-            while ((n = is.read(byteChunk)) > 0) {
-                bais.write(byteChunk, 0, n);
-            }
-        } catch (IOException e) {
-            System.err.printf("Failed while reading bytes from %s: %s", url.toExternalForm(), e.getMessage());
-            e.printStackTrace();
-        } finally {
-            if (is != null) {
-                is.close();
-            }
-        }
+        is.close();
 
         return new SharedTorrentFromUrl(
                 url,

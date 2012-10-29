@@ -14,8 +14,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Polls a server for new torrents
@@ -46,10 +44,8 @@ public class TorrentReceiver {
 
 
             // Grab the URLs from the JSON received from the server
-            final List<URL> torrentUrls = new ArrayList<URL>();
             for (Object torrent : (JSONArray) jsonPointer.get("responseData")) {
                 final String torrentUrl = ((JSONObject) torrent).get("url").toString();
-                torrentUrls.add(new URL(torrentUrl));
 
                 final URL tUrl = new URL(torrentUrl);
 

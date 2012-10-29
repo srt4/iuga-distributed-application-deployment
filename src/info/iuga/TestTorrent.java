@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit;
 
 
 public class TestTorrent {
-
     public static void main(final String[] args) throws IOException, NoSuchAlgorithmException, URISyntaxException, InterruptedException {
         final TorrentManager tm = new TorrentManager();
 
@@ -18,9 +17,10 @@ public class TestTorrent {
             public void run() {
                 try {
                     while (true) {
-                        System.out.println("Checked for new torrents.");
+                        System.out.print("Checking for new torrents...");
                         TorrentReceiver.getTorrentsFromJson("http://iuga.info/gamenight/torrents.php", tm);
-                        TimeUnit.SECONDS.sleep(10);
+                        System.out.println("done");
+                        TimeUnit.SECONDS.sleep(5);
                     }
                 } catch (Exception e) {
 
@@ -34,7 +34,7 @@ public class TestTorrent {
                 System.out.printf("%f %% - %d bytes downloaded - %d bytes uploaded\n", torrent.getCompletion(), torrent.getDownloaded(), torrent.getUploaded());
                 System.out.println(torrent.getName());
             }
-            TimeUnit.SECONDS.sleep(1);
+            TimeUnit.SECONDS.sleep(2);
         }
     }
 }
