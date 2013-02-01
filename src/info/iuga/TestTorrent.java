@@ -3,14 +3,13 @@ package info.iuga;
 import com.turn.ttorrent.client.Client;
 import com.turn.ttorrent.client.SharedTorrent;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.TimeUnit;
 
 
 public class TestTorrent {
-    public static void main(final String[] args) throws IOException, NoSuchAlgorithmException, URISyntaxException, InterruptedException {
+    public static void main(final String[] args) throws Exception {
+        GameNightSettings.fetchSettings();
+
         final TorrentManager tm = new TorrentManager();
 
         new Thread() {
@@ -18,9 +17,9 @@ public class TestTorrent {
                 try {
                     while (true) {
                         System.out.print("Checking for new torrents...");
-                        TorrentReceiver.getTorrentsFromJson("http://iuga.info/gamenight/torrents.php", tm);
+                        TorrentReceiver.addTorrentsFromJsonUrl(GameNightSettings.TORRENT_JSON_URL, tm);
                         System.out.println("done");
-                        TimeUnit.SECONDS.sleep(5);
+                        TimeUnit.SECONDS.sleep(GameNightSettings.REFRESH_INTERVAL);
                     }
                 } catch (Exception e) {
 
@@ -29,6 +28,8 @@ public class TestTorrent {
         }.start();
 
         while (true) {
+            System.out.println("===== Tracking " + tm.getClients().size() + " torrents =====");
+
             for (final Client client : tm.getClients()) {
                 final SharedTorrent torrent = client.getTorrent();
                 System.out.printf("%f %% - %d bytes downloaded - %d bytes uploaded\n", torrent.getCompletion(), torrent.getDownloaded(), torrent.getUploaded());

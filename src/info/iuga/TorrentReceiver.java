@@ -21,7 +21,7 @@ import java.security.NoSuchAlgorithmException;
  * @author Spencer <srt4@uw.edu>
  */
 public class TorrentReceiver {
-    public static void getTorrentsFromJson(
+    public static void addTorrentsFromJsonUrl (
             final String urlString,
             final TorrentManager manager
     ) throws NoSuchAlgorithmException {
@@ -29,7 +29,6 @@ public class TorrentReceiver {
             URL url = new URL(urlString);
             URLConnection connection = url.openConnection();
             connection.addRequestProperty("Referer", "http://iuga.info");
-
 
             StringBuilder builder = new StringBuilder();
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -65,6 +64,8 @@ public class TorrentReceiver {
                     manager.addTorrent(
                             torrentToAdd
                     );
+                } else {
+                    System.out.println("Already tracking " + torrentUrl);
                 }
             }
 
