@@ -53,6 +53,10 @@ public class TorrentReceiver {
                     final SharedTorrentFromUrl torr = (SharedTorrentFromUrl) client.getTorrent();
                     @Nullable final URL otherUrl = torr.getUrl();
                     addTorrent = addTorrent && !tUrl.sameFile(otherUrl);
+
+                    if (!tUrl.sameFile(otherUrl)) {
+                        System.out.println("Found new torrent. ");
+                    }
                 }
 
                 // Could be replaced by a simple break in the above for loop
@@ -61,9 +65,17 @@ public class TorrentReceiver {
                             tUrl,
                             GameNightSettings.SAVE_DIR
                     );
-                    manager.addTorrent(
-                            torrentToAdd
-                    );
+
+                    // A second pass?! Compare by filename this time. TODO Remove remove remove
+                    for(final Client client : manager.getClients()) {
+                        addTorrent = addTorrent && (!torrentToAdd.getName().equals(client.getTorrent().getName()));
+                    }
+
+                    if (addTorrent) {
+                        manager.addTorrent(
+                                torrentToAdd
+                        );
+                    }
                 } else {
                     System.out.println("Already tracking " + torrentUrl);
                 }

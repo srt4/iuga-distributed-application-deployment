@@ -13,6 +13,7 @@ public class GameNightSettings {
     public static String TORRENT_JSON_URL;
     public static File SAVE_DIR;
     public static Integer REFRESH_INTERVAL;
+    public static String STATUS_URL;
 
     private static final String SETTINGS_URL = "http://www.iuga.info/gamenight/config.php";
 
@@ -37,10 +38,12 @@ public class GameNightSettings {
         final Integer refreshInterval = Integer.parseInt(
                 jsonPointer.get("refreshInterval").toString()
         );
+        final String statusUrl = jsonPointer.get("statusUrl").toString();
 
         TORRENT_JSON_URL = torrentJsonUrl;
         SAVE_DIR = new File(saveDir);
         REFRESH_INTERVAL = refreshInterval;
+        STATUS_URL = statusUrl;
 
         System.out.println("Saving to " + SAVE_DIR.getAbsolutePath());
         System.out.println("Refreshing torrents every " + REFRESH_INTERVAL + " seconds.");

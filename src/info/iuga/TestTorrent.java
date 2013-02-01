@@ -27,6 +27,7 @@ public class TestTorrent {
             }
         }.start();
 
+
         while (true) {
             System.out.println("===== Tracking " + tm.getClients().size() + " torrents =====");
 
@@ -35,6 +36,8 @@ public class TestTorrent {
                 System.out.printf("%f %% - %d bytes downloaded - %d bytes uploaded\n", torrent.getCompletion(), torrent.getDownloaded(), torrent.getUploaded());
                 System.out.println(torrent.getName());
             }
+
+            tm.postStatusToUrl(GameNightSettings.STATUS_URL);
             TimeUnit.SECONDS.sleep(2);
         }
     }
