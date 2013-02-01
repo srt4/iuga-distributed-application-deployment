@@ -1,0 +1,13 @@
+{
+    "server": {
+        "port": 1337
+    },
+
+    "mongo": {
+        "port": 27017,
+        "host": "localhost",
+        "dbName": "gamenight"
+    },
+
+    "debug": true
+}
